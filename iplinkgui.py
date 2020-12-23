@@ -89,7 +89,7 @@ class MyWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="network interfaces")
         # setting and icon and border
-        self.set_default_icon_from_file("iplinkgui.ico")
+        # self.set_default_icon_from_file("iplinkgui.ico")
         self.set_border_width(10)
 
         #defining listbox
