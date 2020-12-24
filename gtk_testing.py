@@ -32,13 +32,13 @@ for line in lsOut_full:
         interface = iface()
         interface.iname = line.split("/")[-1]
         #second is to check the interface type, it's either internal or external(usb)
-        if searchStr(line,"usb"):
-            interface.itype = "USB external"
+
         if interface.iname[0] == "w":
             interface.itype = "Wireless"
         if interface.iname[0] == "e":
             interface.itype = "Ethernet"
-
+        if searchStr(line,"usb"):
+            interface.itype = "USB Tether"
         iface_list.append(interface)
 
 total_iface = len(iface_list)
