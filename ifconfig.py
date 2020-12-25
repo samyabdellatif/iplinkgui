@@ -214,15 +214,13 @@ class Interface(object):
         mac = struct.unpack('6B8x', address)
 
         return ":".join(['%02X' % i for i in mac])
-        # info = fcntl.ioctl(s.fileno(), 0x8927,  struct.pack('256s', bytes(self.name[:15], 'utf-8')))
-        # return ''.join(['%02x:' % b for b in info[18:24]])[:-1]
 
 
     def set_mac(self, newmac):
         ''' Set the device's mac address. Device must be down for this to
             succeed. '''
         macbytes = [int(i, 16) for i in newmac.split(':')]
-        ifreq = struct.pack('16sH6B8x', self.name, AF_UNIX, *macbytes)
+        ifreq = struct.pack('16sH6B8x', bytes(self.name,'utf-8'), AF_UNIX, *macbytes)
         fcntl.ioctl(sockfd, SIOCSIFHWADDR, ifreq)
 
 
@@ -302,7 +300,7 @@ class Interface(object):
     def set_link_mode(self, speed, duplex):
         # First get the existing info
         ecmd = array.array('B', struct.pack('I39s', ETHTOOL_GSET, b'\x00'*39))
-        ifreq = struct.pack('16sP', self.name, ecmd.buffer_info()[0])
+        ifreq = struct.pack('16sP', bytes(self.name,'utf-8'), ecmd.buffer_info()[0])
         fcntl.ioctl(sockfd, SIOCETHTOOL, ifreq)
         # Then modify it to reflect our needs
         #print ecmd
@@ -317,7 +315,7 @@ class Interface(object):
     def set_link_auto(self, ten=True, hundred=True, thousand=True):
         # First get the existing info
         ecmd = array.array('B', struct.pack('I39s', ETHTOOL_GSET, '\x00'*39))
-        ifreq = struct.pack('16sP', self.name, ecmd.buffer_info()[0])
+        ifreq = struct.pack('16sP', bytes(self.name,'utf-8'), ecmd.buffer_info()[0])
         fcntl.ioctl(sockfd, SIOCETHTOOL, ifreq)
         # Then modify it to reflect our needs
         ecmd[0:4] = array.array('B', struct.pack('I', ETHTOOL_SSET))
