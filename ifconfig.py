@@ -173,24 +173,24 @@ class Interface(object):
         ''' Bring up the bridge interface. Equivalent to ifconfig [iface] up. '''
 
         # Get existing device flags
-        ifreq = struct.pack('16sh', self.name, 0)
+        ifreq = struct.pack('16sh', bytes(self.name,'utf-8'), 0)
         flags = struct.unpack('16sh', fcntl.ioctl(sockfd, SIOCGIFFLAGS, ifreq))[1]
 
         # Set new flags
         flags = flags | IFF_UP
-        ifreq = struct.pack('16sh', self.name, flags)
+        ifreq = struct.pack('16sh', bytes(self.name,'utf-8'), flags)
         fcntl.ioctl(sockfd, SIOCSIFFLAGS, ifreq)
 
     def down(self):
         ''' Bring up the bridge interface. Equivalent to ifconfig [iface] down. '''
 
         # Get existing device flags
-        ifreq = struct.pack('16sh', self.name, 0)
+        ifreq = struct.pack('16sh', bytes(self.name,'utf-8'), 0)
         flags = struct.unpack('16sh', fcntl.ioctl(sockfd, SIOCGIFFLAGS, ifreq))[1]
 
         # Set new flags
         flags = flags & ~IFF_UP
-        ifreq = struct.pack('16sh', self.name, flags)
+        ifreq = struct.pack('16sh', bytes(self.name,'utf-8'), flags)
         fcntl.ioctl(sockfd, SIOCSIFFLAGS, ifreq)
 
     def is_up(self):
@@ -270,7 +270,7 @@ class Interface(object):
 
     def get_link_info(self):
         # First get link params
-        ecmd = array.array('B', struct.pack('I39s', ETHTOOL_GSET, '\x00'*39))
+        ecmd = array.array('B', struct.pack('I39s', ETHTOOL_GSET, b'\x00'*39))
         ifreq = struct.pack('16sP', bytes(self.name,'utf-8'), ecmd.buffer_info()[0])
         try:
             fcntl.ioctl(sockfd, SIOCETHTOOL, ifreq)
@@ -316,7 +316,7 @@ class Interface(object):
 
     def set_link_auto(self, ten=True, hundred=True, thousand=True):
         # First get the existing info
-        ecmd = array.array('B', struct.pack('I39s', ETHTOOL_GSET, b'\x00'*39))
+        ecmd = array.array('B', struct.pack('I39s', ETHTOOL_GSET, '\x00'*39))
         ifreq = struct.pack('16sP', self.name, ecmd.buffer_info()[0])
         fcntl.ioctl(sockfd, SIOCETHTOOL, ifreq)
         # Then modify it to reflect our needs

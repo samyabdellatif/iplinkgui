@@ -6,11 +6,10 @@ from ifconfig import *
 # from route import *
 
 for iface in list_ifs():
-    # if iface.name=="eno1":
-    #     if iface.is_up():
-    #         iface.set_ip('192.168.0.10')
-    #     else:
-    #         iface.up()
-    #         iface.set_ip('192.168.0.10')
-    print(iface.get_ip())
-    print(iface.get_stats())
+    if iface.is_up():
+        if iface.name=="eno1":
+            iface.down()
+        print(iface.name + " interface is UP , IP ADDRESS: " + str(iface.get_ip()))
+    else:
+        print("interface is DOWN")
+
