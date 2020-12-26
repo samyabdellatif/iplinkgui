@@ -73,7 +73,7 @@ class MyWindow(Gtk.Window):
 
                 
             switch = Gtk.Switch()
-            switch.connect("notify::active", self.on_switch_activated, iface)
+            switch.connect("notify::active", self.on_UpDown_activated, iface)
             switch.props.valign = Gtk.Align.CENTER
             if intF_list[iface].is_up():
                 switch.props.active = True
@@ -83,7 +83,7 @@ class MyWindow(Gtk.Window):
             
 
             switch = Gtk.Switch()
-            switch.connect("notify::active", self.on_switch_activated, iface)
+            switch.connect("notify::active", self.on_ConDescon_activated, iface)
             switch.props.valign = Gtk.Align.CENTER
             if str(intF_list[iface].get_ip()) != "None":
                 switch.props.active = True
@@ -99,12 +99,18 @@ class MyWindow(Gtk.Window):
         self.show_all()
 
 
-    def on_switch_activated(self, switch, gparam,i):
+    def on_UpDown_activated(self, switch, gparam,i):
         if switch.get_active():
             state = "on"
         else:
             state = "off"
-        print(intF_list[i].name,"Switch was turned", state)
+        print(intF_list[i].name,"UpDown Switch was turned", state)
+    def on_ConDescon_activated(self, switch, gparam,i):
+        if switch.get_active():
+            state = "on"
+        else:
+            state = "off"
+        print(intF_list[i].name,"ConDescon Switch was turned", state)
 
 win = MyWindow()
 win.connect("destroy", Gtk.main_quit)
