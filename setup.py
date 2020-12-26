@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="netgtkui",
+    name="netui-gtk3",
     version="0.0.1",
     author="Samy Abdellatif",
     author_email="samiahmed086@gmail.com",

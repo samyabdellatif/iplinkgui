@@ -1,7 +1,7 @@
 # brctl,ifconfig,tap,route are forked from https://github.com/rlisagor/pynetlinux
 # thanks for developers rlisagor Roman Lisagor, Robert Grant, and williamjoy williamjoy
 # from brctl import *
-from ifconfig import *
+from pynetlinux.ifconfig import *
 # from tap import *
 # from route import *
 import gi
@@ -101,8 +101,12 @@ class MyWindow(Gtk.Window):
     def on_UpDown_activated(self, switch, gparam,i):
         if switch.get_active():
             state = "on"
+            if not intF_list[i].is_up():
+                intF_list[i].up()
         else:
             state = "off"
+            if intF_list[i].is_up():
+                intF_list[i].down()
         print(intF_list[i].name,"UpDown Switch was turned", state)
     def on_ConDescon_activated(self, switch, gparam,i):
         if switch.get_active():
