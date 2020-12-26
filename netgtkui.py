@@ -32,12 +32,33 @@ class MyWindow(Gtk.Window):
         self.set_border_width(10)
 
         #defining listbox
-        self.listbox = Gtk.ListBox()
-        self.listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        lbox = Gtk.ListBox()
+        lbox.set_selection_mode(Gtk.SelectionMode.NONE)
 
-        for iface in intF_list:
+        #Header Row
+        row = Gtk.ListBoxRow()
+        row.set_activatable(False)
 
-            interfaceDetails = str(iface.name) + " | " + str(iface.get_mac()) + " | " + str(iface.get_ip())
+        #inserting horizontal box inside the listbox row container
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        row.add(hbox)
+
+        #inserting label and button widgets inside the horizontal box
+        label = Gtk.Label(label="interface Details",width_chars=50,xalign=0)
+        hbox.pack_start(label,True,True,10)
+        #inserting label and button widgets inside the horizontal box
+        label = Gtk.Label(label="DOWN/UP",width_chars=10,xalign=1)
+        hbox.pack_start(label,True,True,10)
+        #inserting label and button widgets inside the horizontal box
+        label = Gtk.Label(label="Desconnect/Connect",width_chars=20,xalign=1)
+        hbox.pack_start(label,True,True,10)
+        # adding the row to the listbox
+        lbox.add(row)
+
+        # Iterate throw interfaces and added one row for each 
+        for iface in range(len(intF_list)):
+
+            interfaceDetails = str(intF_list[iface].name) + " | " + str(intF_list[iface].get_mac()) + " | " + str(intF_list[iface].get_ip())
             #defining listbox row container
             row = Gtk.ListBoxRow()
             row.set_activatable(False)
@@ -47,43 +68,43 @@ class MyWindow(Gtk.Window):
             row.add(hbox)
 
             #inserting label and button widgets inside the horizontal box
-            label = Gtk.Label(label=interfaceDetails,width_chars=50,xalign=0)
+            label = Gtk.Label(label=interfaceDetails,width_chars=40,xalign=0)
             hbox.pack_start(label,True,True,10)
 
-            if iface.is_up():
-                buttonLabel = "Shut Down"
+                
+            switch = Gtk.Switch()
+            switch.connect("notify::active", self.on_switch_activated, iface)
+            switch.props.valign = Gtk.Align.CENTER
+            if intF_list[iface].is_up():
+                switch.props.active = True
             else:
-                buttonLabel = "Bring UP"
+                switch.props.active = False
+            hbox.pack_start(switch, True, False, 0)
+            
 
-            self.button = Gtk.Button(label=buttonLabel)
-            self.button.connect("clicked", self.on_button_clicked,iface.name)
-            hbox.pack_start(self.button, True, True, 10)
-
-            self.switch = Gtk.Switch()
-            self.switch.props.valign = Gtk.Align.CENTER
-            if str(iface.get_ip()) != "None":
-                self.switch.props.active = True
-            hbox.pack_start(self.switch, True, False, 10)
+            switch = Gtk.Switch()
+            switch.connect("notify::active", self.on_switch_activated, iface)
+            switch.props.valign = Gtk.Align.CENTER
+            if str(intF_list[iface].get_ip()) != "None":
+                switch.props.active = True
+            else:
+                switch.props.active = False
+            hbox.pack_start(switch, True, False, 0)
 
             # adding the row to the listbox
-            self.listbox.add(row)
+            lbox.add(row)
 
         # adding the listbox to the window container (self)
-        self.add(self.listbox)
+        self.add(lbox)
         self.show_all()
-        # self.button = list(Gtk.Button())
-        # for i in range(total_iface):
-        #     self.add = Gtk.Button(label=intF_list[i].iname)
-        #     self.button[i].connect("clicked", self.on_button_clicked(self,intF_list[i].iname))
-        #     self.box.pack_start(self.button[i],True,True,2)
 
 
-
-    def on_button_clicked(self, widget,ifname):
-        self.button.set_label("well, you have it")
-        process = subprocess.run("ip link show dev "+ ifname, shell=True, check=True, stdout=subprocess.PIPE, universal_newlines=True)
-        output = process.stdout
-        print(output)
+    def on_switch_activated(self, switch, gparam,i):
+        if switch.get_active():
+            state = "on"
+        else:
+            state = "off"
+        print(intF_list[i].name,"Switch was turned", state)
 
 win = MyWindow()
 win.connect("destroy", Gtk.main_quit)
