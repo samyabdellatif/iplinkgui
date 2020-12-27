@@ -10,7 +10,7 @@ groups=('base-devel')
 depends=('dhcpcd')
 makedepends=('python-setuptools')
 install='netui-gtk3.install'
-source=("git+https://github.com/samyabdellatif/netui-gtk3/$pkgname-$pkgver.tar.gz")
+source=("git+https://github.com/samyabdellatif/netui-gtk3/release/$pkgname-$pkgver.tar.gz")
 md5sums=() #autofill using updpkgsums
 validpgpkeys=()
 
