@@ -1,16 +1,16 @@
 # Maintainer: Samy Abdellatif samiahmed086@gmail.com
-pkgname=netui-gtk3
+pkgname=netui-gtk
 pkgver=1.0.0
 pkgrel=1
 pkgdesc="A GUI tool for managing physical network interfaces"
 arch=('i686' 'x86_64')
-url="git+https://github.com/samyabdellatif/netui-gtk3"
+url="git+https://github.com/samyabdellatif/netui-gtk"
 license=('MIT')
 groups=('base-devel')
-depends=('dhcpcd')
+depends=('python3' 'gtk3' 'dhcpcd')
 makedepends=('python-setuptools')
-install='netui-gtk3.install'
-source=("git+https://github.com/samyabdellatif/netui-gtk3/release/$pkgname-$pkgver.tar.gz")
+install='netui-gtk.install'
+source=("git+https://github.com/samyabdellatif/netui-gtk/dist/$pkgname-$pkgver.tar.gz")
 md5sums=() #autofill using updpkgsums
 validpgpkeys=()
 

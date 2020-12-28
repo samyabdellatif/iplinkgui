@@ -1,15 +1,20 @@
-# brctl,ifconfig,tap,route are forked from https://github.com/rlisagor/pynetlinux
-# thanks for developers rlisagor Roman Lisagor, Robert Grant, and williamjoy williamjoy
-# from brctl import *
-from ifconfig import *
-# from tap import *
-# from route import *
+"""
+Main code of netui-gtk.
+:Copyright: © 2020, Samy Abdellatif.
+:License: MIT.
+
+ifconfig,route are forked from https://github.com/rlisagor/pynetlinux under the MIT licence
+thanks for developers rlisagor Roman Lisagor, Robert Grant, and williamjoy williamjoy
+"""
+from netmanage.ifconfig import *
+from netmanage.route import *
+
 import gi
 import os
 import subprocess
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-#from subprocess import call,run,STDOUT
+from subprocess import call,run,STDOUT
 from os import listdir
 
 intF_list = list_ifs()
@@ -24,7 +29,7 @@ for iface in intF_list:
 total_iface = len(intF_list)
 print("total number of interfaces installed : " + str(total_iface))
     
-class MyWindow(Gtk.Window):
+class netUImainWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="network interfaces")
         # setting and icon and border
@@ -83,7 +88,7 @@ class MyWindow(Gtk.Window):
             
 
             switch = Gtk.Switch()
-            switch.connect("notify::active", self.on_ConDescon_activated, iface)
+            switch.connect("notify::active", self.on_ConDiscon_activated, iface)
             switch.props.valign = Gtk.Align.CENTER
             if str(intF_list[iface].get_ip()) != "None":
                 switch.props.active = True
@@ -102,17 +107,16 @@ class MyWindow(Gtk.Window):
     def on_UpDown_activated(self, switch, gparam,i):
         if switch.get_active():
             state = "on"
+            if not intF_list[i].is_up():
+                intF_list[i].up()
         else:
             state = "off"
+            if intF_list[i].is_up():
+                intF_list[i].down()
         print(intF_list[i].name,"UpDown Switch was turned", state)
-    def on_ConDescon_activated(self, switch, gparam,i):
+    def on_ConDiscon_activated(self, switch, gparam,i):
         if switch.get_active():
             state = "on"
         else:
             state = "off"
         print(intF_list[i].name,"ConDescon Switch was turned", state)
-
-win = MyWindow()
-win.connect("destroy", Gtk.main_quit)
-win.show_all()
-Gtk.main()

@@ -1,25 +1,29 @@
-# brctl,ifconfig,tap,route are forked from https://github.com/rlisagor/pynetlinux
-# thanks for developers rlisagor Roman Lisagor, Robert Grant, and williamjoy williamjoy
-# from brctl import *
-from pynetlinux.ifconfig import *
-# from tap import *
-# from route import *
+
 import gi
-import os
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 #from subprocess import call,run,STDOUT
-from os import listdir
 
-intF_list = list_ifs()
-for iface in intF_list:
-    if iface.is_up():
-        if iface.name=="eno1":
-            iface.down()
-        print(iface.name + " interface is UP , IP ADDRESS: " + str(iface.get_ip()))
-    else:
-        print("interface is DOWN")
+# creating a dummy interface class to test the GTK functions
+class dummyiF:
+    IP = "None"
+    def __init__(self,n,i,s):
+        self.name = n
+        self.ID = i
+        self.stat = s
+    def get_iF(self):
+        return([self.name,self.ID,self.stat,self.IP])
+    def set_ip(self,ip):
+        self.IP = ip
+    def get_ip(self):
+        return self.IP
+    def is_up(self):
+        return True if self.stat == "UP" else False
 
+
+intF_list = [dummyiF('eth0','0001','UP'),dummyiF('wlp0s1','0002','UP'),dummyiF('en0','0003','DOWN')]
+intF_list[0].IP = "192.168.0.2"
+print([x.name for x in intF_list])
 total_iface = len(intF_list)
 print("total number of interfaces installed : " + str(total_iface))
     
@@ -57,7 +61,9 @@ class MyWindow(Gtk.Window):
         # Iterate throw interfaces and added one row for each 
         for iface in range(len(intF_list)):
 
-            interfaceDetails = str(intF_list[iface].name) + " | " + str(intF_list[iface].get_mac()) + " | " + str(intF_list[iface].get_ip())
+            interfaceDetails = intF_list[iface].ID.ljust(10," ") + " | "\
+                + intF_list[iface].name.ljust(10," ") + " | "\
+                + intF_list[iface].stat.ljust(4," ")
             #defining listbox row container
             row = Gtk.ListBoxRow()
             row.set_activatable(False)
@@ -101,12 +107,8 @@ class MyWindow(Gtk.Window):
     def on_UpDown_activated(self, switch, gparam,i):
         if switch.get_active():
             state = "on"
-            if not intF_list[i].is_up():
-                intF_list[i].up()
         else:
             state = "off"
-            if intF_list[i].is_up():
-                intF_list[i].down()
         print(intF_list[i].name,"UpDown Switch was turned", state)
     def on_ConDescon_activated(self, switch, gparam,i):
         if switch.get_active():

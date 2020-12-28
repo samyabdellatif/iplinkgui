@@ -4,14 +4,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="netui-gtk3",
+    name="netui-gtk",
     version="0.0.1",
     author="Samy Abdellatif",
     author_email="samiahmed086@gmail.com",
     description="GTK3 GUI for managing network interfaces",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/samyabdellatif/netgtkui",
+    url="https://github.com/samyabdellatif/netui-gtk",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

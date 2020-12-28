@@ -1,7 +1,9 @@
-# netui-gtk3
+# NETUI-GTK
 by Samy Abdellatif
 
-GTK3 GUI app built on top of the pynetlinux package with some modifications for managing the network interfaces in python. My goal is to keep it as simple as possible, this app will only show the physical interfaces and allow the simple operations
+GTK3 Graphical User Interface built on top of the pynetlinux library for managing the network interfaces in python. My goal is to keep it as simple as possible. [pynetlinux](https://pypi.org/project/pynetlinux/) library is used (ifconfig and route) as an interface to the hardware.
+
+this app will only show the physical interfaces and allow the simple operations.
 
 - list pysical interfaces and thier status
 - switching interfaces on/off
