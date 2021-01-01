@@ -7,22 +7,19 @@ arch=('i686' 'x86_64')
 url="git+https://github.com/samyabdellatif/netui-gtk/dist"
 license=('MIT')
 groups=('base-devel')
-depends=('python3' 'gtk3' 'dhcpcd')
-makedepends=('python-setuptools')
+depends=('python-setuptools' 'python3' 'gtk3' 'dhcpcd')
 install='netui-gtk.install'
 source=("$pkgname-$pkgver.tar.gz")
-md5sums=('7baeb06b4ad25687543c6e48ea6e2ad4') #autofill using updpkgsums
+md5sums=('f07705c3dccc5a21cb620dcddf193d63') #autofill using updpkgsums
 #validpgpkeys=()
 
-# build() {
-#   cd "$pkgname-$pkgver"
-
-#   ./configure
-#   make
-# }
+build() {
+  cd "$pkgname-$pkgver"
+  python setup.py build
+}
 
 package() {
+  chmod a+x "$pkgname-$pkgver"
   cd "$pkgname-$pkgver"
-
-  make DESTDIR="$pkgdir/" install
+  python setup.py install --root="$pkgdir/" --optimize=1 --skip-build
 }
