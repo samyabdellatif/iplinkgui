@@ -1,0 +1,13 @@
+README.md
+setup.py
+netui_gtk.egg-info/PKG-INFO
+netui_gtk.egg-info/SOURCES.txt
+netui_gtk.egg-info/dependency_links.txt
+netui_gtk.egg-info/top_level.txt
+source/__init__.py
+source/__main__.py
+source/netui.py
+source/netmanage/__init__.py
+source/netmanage/dhcpc.py
+source/netmanage/ifconfig.py
+source/netmanage/route.py

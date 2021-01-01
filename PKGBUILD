@@ -10,20 +10,16 @@ groups=('base-devel')
 depends=('python3' 'gtk3' 'dhcpcd')
 makedepends=('python-setuptools')
 install='netui-gtk.install'
-source=("git+https://github.com/samyabdellatif/netui-gtk/dist/$pkgname-$pkgver.tar.gz")
-md5sums=() #autofill using updpkgsums
-validpgpkeys=()
+source=("$pkgname-$pkgver.tar.gz")
+md5sums=('7baeb06b4ad25687543c6e48ea6e2ad4') #autofill using updpkgsums
+#validpgpkeys=()
 
-build() {
-  cd "$pkgname-$pkgver"
+# build() {
+#   cd "$pkgname-$pkgver"
 
-  ./configure --prefix=/usr
-  make
-}
-check() {
-	cd "$pkgname-$pkgver"
-	make -k check
-}
+#   ./configure
+#   make
+# }
 
 package() {
   cd "$pkgname-$pkgver"
