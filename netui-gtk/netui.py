@@ -8,6 +8,7 @@ thanks for developers rlisagor Roman Lisagor, Robert Grant, and williamjoy willi
 """
 from netmanage.ifconfig import *
 from netmanage.route import *
+from netmanage.dhcpc import *
 
 import gi
 import os
