@@ -5,7 +5,7 @@ GTK3 Graphical User Interface built on top of the pynetlinux library for managin
 
 **Requirements**
  - [pynetlinux](https://pypi.org/project/pynetlinux/) had been used partially as an interface to the hardware.
- - dhcpcd is requered to lease IP addresses.
+ - dhcpcd is requered for auto IP assignment.
 
 this app will only show the physical interfaces and allow the simple operations.
 
